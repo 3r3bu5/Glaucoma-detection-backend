@@ -4,7 +4,10 @@
   "description": "Express template with logging and Error Handler",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "es": "eslint src/*",
+    "pretty": "npx prettier --write ."
   },
   "keywords": [
     "Express",
@@ -21,6 +24,11 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1"
   }
 }

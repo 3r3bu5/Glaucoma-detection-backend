@@ -1,6 +1,20 @@
 var express = require("express");
+var path = require('path');
 var app = express();
 require('dotenv').config()
+
+var morgan = require("morgan");
+var helemt = require("helmet");
+var cors = require("cors");
+
+/* 
+    Express middlewares
+*/
+app.use(express.json());
+app.use(helemt());
+app.use(cors());
+app.use(morgan('combined'))
+app.use("/static", express.static(path.join(__dirname, "public")));
 
 
 

@@ -1,7 +1,7 @@
 {
-  "name": "ash-express-boil",
+  "name": "glac-server",
   "version": "1.0.0",
-  "description": "Express template with logging and Error Handler",
+  "description": "Glacouma prediction server using tensorflow model",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

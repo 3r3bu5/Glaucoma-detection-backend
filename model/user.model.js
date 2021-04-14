@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const patientSchema = require('./patient.model');
 
 const passportLocalMongoose = require('passport-local-mongoose');
 
@@ -28,6 +29,7 @@ const UserSchema = new mongoose.Schema(
     verfiyString: {
       type: String,
     },
+    patient: [patientSchema],
   },
   { timestamps: true }
 );

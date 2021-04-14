@@ -13,7 +13,7 @@ var uploadRouter = require('../route/upload.route');
 var logger = new loggerService('server');
 // DB connection
 var connectDB = require('../config/db.config');
-connectDB()
+connectDB();
 
 /*
  * Express middlewares

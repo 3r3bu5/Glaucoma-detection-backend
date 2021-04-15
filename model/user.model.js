@@ -28,9 +28,6 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    verfiyString: {
-      type: String,
-    },
     patient: [patientSchema],
   },
   { timestamps: true }

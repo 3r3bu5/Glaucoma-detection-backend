@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4 } = require('uuid');
 const patientSchema = require('./patient.model');
 
 const passportLocalMongoose = require('passport-local-mongoose');
@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema(
     },
     verfied: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     patient: [patientSchema],
   },

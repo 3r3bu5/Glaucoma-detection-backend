@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const patientSchema = new mongoose.Schema(
   {
+    _id: { type: String, default: uuidv4 },
     fname: {
       type: String,
       required: true,

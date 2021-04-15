@@ -10,10 +10,13 @@ var APIError = require('../error/api.error');
 var errorStatusCode = require('../error/errorStatusCode');
 // API routes
 var uploadRouter = require('../route/upload.route');
+var userRouter = require('../route/user.route');
 var logger = new loggerService('server');
 // DB connection
 var connectDB = require('../config/db.config');
 connectDB();
+// passport
+const passport = require('passport');
 
 /*
  * Express middlewares
@@ -22,6 +25,8 @@ app.use(express.json());
 app.use(helemt());
 app.use(cors());
 app.use(morgan('combined'));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
 // routes
@@ -30,6 +35,7 @@ app.get('/', (req, res) => {
 });
 app.get('/favicon.ico', (req, res) => res.status(204));
 app.use('/upload', uploadRouter);
+app.use('/user', userRouter);
 
 /*
  * 404 ErrorHandler

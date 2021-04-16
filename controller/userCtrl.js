@@ -38,7 +38,7 @@ exports.login = (req, res, next) => {
       });
     }
     const token = jwtToken({ _id: req.user._id });
-    return res.json({ status: true, message: 'Logged-In Successful!', token });
+    return res.json({ status: true, message: 'Logged-In Successful!', id: req.user._id, firstname: req.user.fname, lastname: req.user.lname, email: req.user.email, token });
   } catch (err) {
     console.log(err);
   }

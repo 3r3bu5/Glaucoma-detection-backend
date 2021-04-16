@@ -1,34 +1,31 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 
-const patientSchema = new mongoose.Schema(
+const imageSchema = new mongoose.Schema(
   {
     _id: { type: String, default: uuidv4 },
-    _doctorId: {
+    _patientId: {
       type: mongoose.Schema.Types.String,
       required: true,
-      ref: 'user',
+      ref: 'patient',
     },
-    fname: {
-      type: String,
-      required: true,
-    },
-    lname: {
-      type: String,
-      required: true,
-    },
-    age: {
+    eye: {
       type: Number,
       required: true,
     },
-    gender: {
-      type: Number,
+    result: {
+      type: String,
+      required: true,
+    },
+    notes: {
+      type: String,
+    },
+    Imagelink: {
+      type: String,
       required: true,
     },
   },
   { timestamps: true }
 );
 
-const Patient = mongoose.model('patient', patientSchema);
-
-module.exports = Patient;
+module.exports = imageSchema;

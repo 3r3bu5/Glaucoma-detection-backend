@@ -28,7 +28,10 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    patient: [patientSchema],
+    credits: {
+      type: Number,
+      default: 2,
+    },
   },
   { timestamps: true }
 );

@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 
+const Genders = Object.freeze({
+  Male: 'male',
+  Female: 'female',
+  Other: 'other',
+});
+
 const patientSchema = new mongoose.Schema(
   {
     _id: { type: String, default: uuidv4 },
@@ -22,8 +28,8 @@ const patientSchema = new mongoose.Schema(
       required: true,
     },
     gender: {
-      type: Number,
-      required: true,
+      type: String,
+      enum: Object.values(Genders),
     },
   },
   { timestamps: true }

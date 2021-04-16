@@ -1,0 +1,100 @@
+const Patient = require('../model/patient.model');
+
+exports.getAll = async (req, res, next) => {
+  try {
+    const patient = await Patient.find({ _doctorId: req.user._id });
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ success: true, patient });
+  } catch (err) {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ success: false, err });
+  }
+};
+exports.createOne = async (req, res, next) => {
+  try {
+    let patient = await new Person({
+      _doctorId: req.user._id,
+      fname: req.body.firstname,
+      lname: req.body.lastname,
+      age: req.body.age,
+      gender: req.body.gender,
+    });
+    let savedPatient = await patient.save();
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ success: true, savedPatient });
+  } catch (err) {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ success: false, err });
+  }
+};
+
+exports.getOne = async (req, res, next) => {
+  try {
+    const patient = await Patient.findOne({ _id: req.params.patientId });
+    if (req.user._id != patient._doctorId) {
+      return res
+        .status(401)
+        .json({ success: false, msg: 'Unauthorized Access' });
+    }
+    if (!patient) {
+      return res.status(404).json({ success: false, msg: 'Patient Not found' });
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ success: true, patient });
+  } catch (err) {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ success: false, err });
+  }
+};
+
+exports.updateOne = async (req, res, next) => {
+  try {
+    const patient = await Patient.findOne({ _id: req.params.patientId });
+    if (req.user._id != patient._doctorId) {
+      return res
+        .status(401)
+        .json({ success: false, msg: 'Unauthorized Access' });
+    }
+    if (!patient) {
+      return res.status(404).json({ success: false, msg: 'Patient Not found' });
+    }
+    if (req.body.firstname) {
+      patient.fname = req.body.firstname;
+    }
+    if (req.body.lastname) {
+      patient.lname = req.body.lastname;
+    }
+    if (req.body.age) {
+      patient.age = req.body.age;
+    }
+    if (req.body.gender) {
+      patient.gender = req.body.gender;
+    }
+    const newPatient = await patient.save();
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ success: true, newPatient });
+  } catch (err) {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ success: false, err });
+  }
+};
+
+exports.deleteOne = async (req, res, next) => {
+  try {
+    const patient = await Patient.findOne({ _id: req.params.patientId });
+    if (req.user._id != patient._doctorId) {
+      return res
+        .status(401)
+        .json({ success: false, msg: 'Unauthorized Access' });
+    }
+    if (!patient) {
+      return res.status(404).json({ success: false, msg: 'Patient Not found' });
+    }
+    await patient.remove();
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ success: true, msg: 'Deleted successfully' });
+  } catch (err) {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ success: false, err });
+  }
+};

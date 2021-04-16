@@ -11,6 +11,7 @@ var errorStatusCode = require('../error/errorStatusCode');
 // API routes
 var uploadRouter = require('../route/upload.route');
 var userRouter = require('../route/user.route');
+var patientRouter = require('../route/patient.route');
 var logger = new loggerService('server');
 // DB connection
 var connectDB = require('../config/db.config');
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 app.get('/favicon.ico', (req, res) => res.status(204));
 app.use('/upload', uploadRouter);
 app.use('/user', userRouter);
+app.use('/patient', patientRouter);
 
 /*
  * 404 ErrorHandler

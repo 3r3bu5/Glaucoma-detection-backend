@@ -38,7 +38,15 @@ exports.login = (req, res, next) => {
       });
     }
     const token = jwtToken({ _id: req.user._id });
-    return res.json({ status: true, message: 'Logged-In Successful!', id: req.user._id, firstname: req.user.fname, lastname: req.user.lname, email: req.user.email, token });
+    return res.json({
+      status: true,
+      message: 'Logged-In Successful!',
+      id: req.user._id,
+      firstname: req.user.fname,
+      lastname: req.user.lname,
+      email: req.user.email,
+      token,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -110,4 +118,9 @@ exports.resendLink = async (req, res, next) => {
     const msg = sendVefiyEmail(req, user, token.token);
     return res.status(200).send({ msg: 'Verfication email has been sent!' });
   }
+};
+
+exports.getCredit = async (req, res, next) => {
+  var user = await User.findById(req.user._id);
+  return res.status(200).send({ credits: user.credits });
 };

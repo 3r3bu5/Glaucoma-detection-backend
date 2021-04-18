@@ -11,8 +11,9 @@ exports.getAll = async (req, res, next) => {
   }
 };
 exports.createOne = async (req, res, next) => {
+  console.log(req.user._id, req.body);
   try {
-    let patient = await new Person({
+    let patient = new Patient({
       _doctorId: req.user._id,
       fname: req.body.firstname,
       lname: req.body.lastname,
@@ -24,7 +25,7 @@ exports.createOne = async (req, res, next) => {
     res.status(200).json({ success: true, savedPatient });
   } catch (err) {
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json({ success: false, err });
+    res.status(200).json({ success: false, err: err.message });
   }
 };
 

@@ -25,7 +25,7 @@ exports.createOne = async (req, res, next) => {
     res.status(200).json({ success: true, savedPatient });
   } catch (err) {
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json({ success: false, err: err.message });
+    res.status(500).json({ success: false, err: err.message });
   }
 };
 

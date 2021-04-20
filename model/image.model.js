@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 
+const eyeOptions = Object.freeze({
+  Left: 'left',
+  Right: 'right',
+});
+
 const imageSchema = new mongoose.Schema(
   {
     _id: { type: String, default: uuidv4 },
@@ -10,7 +15,8 @@ const imageSchema = new mongoose.Schema(
       ref: 'patient',
     },
     eye: {
-      type: Number,
+      type: String,
+      enum: Object.values(eyeOptions),
       required: true,
     },
     result: {

@@ -10,10 +10,12 @@ const {
   verfiy,
   resendLink,
   getCredit,
+  updateCredit,
 } = require('../controller/userCtrl');
 
 router.post('/signup', register);
 router.post('/credits', verifyUser, getCredit);
+router.post('/update_credits', verifyUser, updateCredit);
 router.get('/verfiy/:email/:verfiyToken', verfiy);
 router.get('/verfiy/:email/', resendLink);
 router.post('/login', passport.authenticate('local'), login);

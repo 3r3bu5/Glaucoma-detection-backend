@@ -121,6 +121,23 @@ exports.resendLink = async (req, res, next) => {
 };
 
 exports.getCredit = async (req, res, next) => {
-  var user = await User.findById(req.user._id);
-  return res.status(200).send({ credits: user.credits });
+  try {
+    var user = await User.findById(req.user._id);
+    return res.status(200).send({ credits: user.credits });
+  } catch (err) {
+    return res.status(500).send({ err: err.message });
+  }
+};
+exports.updateCredit = async (req, res, next) => {
+  try {
+    var user = await User.findById(req.user._id);
+    var credits = parseInt(req.body.credits);
+    user.credits = user.credits + credits;
+    updatedUser = await user.save();
+    return res
+      .status(200)
+      .send({ success: true, credits: updatedUser.credits });
+  } catch (err) {
+    return res.status(500).send({ success: false, err: err.message });
+  }
 };

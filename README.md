@@ -22,32 +22,32 @@
       [x] 1.1 Login
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
       [x] 1.2 Register
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
       [x] 1.3 Verfiy email address
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
       [x] 1.4 Resend verfication email address
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
       [x] 1.5 Get user's credits
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
       [x] 1.6 Update user's credits
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
 
     [x] 2. Patient

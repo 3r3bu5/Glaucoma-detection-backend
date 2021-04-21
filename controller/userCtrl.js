@@ -11,6 +11,9 @@ var logger = new loggerService('user.controller');
 const APIError = require('../error/api.error');
 const ErrorStatus = require('../error/errorStatusCode');
 const ErrorType = require('../error/errorType');
+// audit
+const { handleAuditing } = require('../audit/audit');
+const actionTypes = require('../audit/actionTypes');
 
 exports.register = async (req, res, next) => {
   try {
@@ -122,6 +125,7 @@ exports.verfiy = async (req, res, next) => {
         // change verfied to true
         user.verfied = true;
         var user = await user.save();
+        handleAuditing(actionTypes.VERFIY_USER, user, 200, null, user._id);
         return res
           .status(200)
           .send({ msg: 'Your account has been successfully verified' });
@@ -169,6 +173,13 @@ exports.resendLink = async (req, res, next) => {
       var token = new Token({ _userId: user._id, token: uuidv4() });
       await token.save();
       sendVefiyEmail(req, user, token.token);
+      handleAuditing(
+        actionTypes.RESEND_VERFICATION_EMAIL,
+        user,
+        200,
+        null,
+        user._id
+      );
       return res.status(200).send({ msg: 'Verfication email has been sent!' });
     }
   } catch (err) {
@@ -187,6 +198,7 @@ exports.getCredit = async (req, res, next) => {
   try {
     var user = await User.findById(req.user._id);
     logger.info(`CREDITS: Get credits for user ${req.user.email} `);
+    handleAuditing(actionTypes.GET_CREDITS, user, 200, null, req.user._id);
     return res.status(200).send({ credits: user.credits });
   } catch (err) {
     logger.error(
@@ -206,6 +218,7 @@ exports.updateCredit = async (req, res, next) => {
     user.credits = user.credits + credits;
     updatedUser = await user.save();
     logger.info(`CREDITS: update credits for user ${req.user.email} `);
+    handleAuditing(actionTypes.UPDATE_CREDITS, user, 200, null, req.user._id);
     return res
       .status(200)
       .send({ success: true, credits: updatedUser.credits });

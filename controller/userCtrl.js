@@ -189,7 +189,7 @@ exports.getCredit = async (req, res, next) => {
     logger.info(`CREDITS: Get credits for user ${req.user.email} `);
     return res.status(200).send({ credits: user.credits });
   } catch (err) {
-    logger.info(
+    logger.error(
       `CREDITS: Error getting credits for user ${req.user.email} `,
       err.message
     );

@@ -2,10 +2,14 @@ require('dotenv').config();
 const { uploadSingle } = require('../middleware/fileUpload.midd');
 const User = require('../model/user.model');
 const Image = require('../model/image.model');
+// logging
+const loggerService = require('../services/logger.service');
+var logger = new loggerService('scan.controller');
 
 exports.uploadCtrl = async (req, res) => {
   uploadSingle(req, res, async function (err) {
     if (err) {
+      logger.error(`SCAN: error uploading or saving image`, err.message);
       return res.status(500).send({ success: false, err: err.message });
     } else {
       try {
@@ -23,14 +27,24 @@ exports.uploadCtrl = async (req, res) => {
         var user = await User.findById(req.user._id);
         user.credits = user.credits - 1;
         const updatedUser = await user.save();
+        logger.info(
+          `SCAN: created a new scan record for patient ${req.body._patientId}`,
+          err.message
+        );
         return res.status(200).json({
           filename: req.file.originalname,
           result: savedImage.result,
           remCredits: updatedUser.credits,
         });
       } catch (err) {
-        console.log(err.message);
-        return res.status(500).send({ success: false, err: err.message });
+        logger.error(
+          `SCAN: Error creating scan record for patient ${req.body._patientId} `,
+          err.message
+        );
+        res.setHeader('Content-Type', 'application/json');
+        return res
+          .status(err.httpStatusCode || 500)
+          .json({ success: false, err: err.description || err.message });
       }
     }
   });

@@ -83,15 +83,15 @@
 
     [x] 3. Scan
       [x] 3.1 Create a new scan for an image
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
 
     [x] 4. Checkout
       [x] 4.1 issue a payment intent secret
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
 

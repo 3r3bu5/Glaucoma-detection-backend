@@ -6,7 +6,7 @@
     [x] 2. User Model
     [x] 3. Token Model
     [x] 4. Patient Model
-    [x] 5. Image Model
+    [x] 5. Scan Model
 
 #### Routes
 

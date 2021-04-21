@@ -9,7 +9,7 @@ var loggerService = require('../services/logger.service');
 var APIError = require('../error/api.error');
 var errorStatusCode = require('../error/errorStatusCode');
 // API routes
-var uploadRouter = require('../route/upload.route');
+var scanRoute = require('../route/scan.route');
 var userRouter = require('../route/user.route');
 var patientRouter = require('../route/patient.route');
 var checkoutRouter = require('../route/checkout.route');
@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
   res.status(200).send({ status: 'Server is running!' });
 });
 app.get('/favicon.ico', (req, res) => res.status(204));
-app.use('/upload', uploadRouter);
+app.use('/scan', scanRoute);
 app.use('/user', userRouter);
 app.use('/patient', patientRouter);
 app.use('/checkout', checkoutRouter);

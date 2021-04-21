@@ -1,5 +1,5 @@
 const Patient = require('../model/patient.model');
-const Image = require('../model/image.model');
+const Scan = require('../model/scan.model');
 // logging
 const loggerService = require('../services/logger.service');
 var logger = new loggerService('patient.controller');
@@ -178,7 +178,7 @@ exports.deleteOne = async (req, res, next) => {
 
 exports.getPatientHistory = async (req, res, next) => {
   try {
-    const history = await Image.find({
+    const history = await Scan.find({
       _patientId: req.params.patientId,
     }).populate('_patientId');
     if (!history) {
@@ -220,7 +220,7 @@ exports.getPatientHistory = async (req, res, next) => {
 };
 exports.deletePatientHistory = async (req, res, next) => {
   try {
-    let history = await Image.findOne({
+    let history = await Scan.findOne({
       _patientId: req.params.patientId,
       _id: req.params.historyId,
     }).populate('_patientId');

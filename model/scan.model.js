@@ -6,7 +6,7 @@ const eyeOptions = Object.freeze({
   Right: 'right',
 });
 
-const imageSchema = new mongoose.Schema(
+const scanSchema = new mongoose.Schema(
   {
     _id: { type: String, default: uuidv4 },
     _patientId: {
@@ -33,6 +33,6 @@ const imageSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-const Image = mongoose.model('image', imageSchema);
+const Scan = mongoose.model('scan', scanSchema);
 
-module.exports = Image;
+module.exports = Scan;

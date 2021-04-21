@@ -1,12 +1,12 @@
 require('dotenv').config();
 const { uploadSingle } = require('../middleware/fileUpload.midd');
 const User = require('../model/user.model');
-const Image = require('../model/image.model');
+const Scan = require('../model/scan.model');
 // logging
 const loggerService = require('../services/logger.service');
 var logger = new loggerService('scan.controller');
 
-exports.uploadCtrl = async (req, res) => {
+exports.newScan = async (req, res) => {
   uploadSingle(req, res, async function (err) {
     if (err) {
       logger.error(`SCAN: error uploading or saving image`, err.message);
@@ -15,7 +15,7 @@ exports.uploadCtrl = async (req, res) => {
       try {
         var items = Array(0, 1);
         var result = items[Math.floor(Math.random() * items.length)];
-        const newImage = new Image({
+        const newScan = new Scan({
           _patientId: req.body._patientId,
           eye: req.body.eye,
           notes: req.body.notes ? req.body.notes : '',
@@ -23,7 +23,7 @@ exports.uploadCtrl = async (req, res) => {
           Imagelink:
             req.protocol + '://' + process.env.HOSTNAME + '/' + req.file.path,
         });
-        const savedImage = await newImage.save();
+        const savedImage = await newScan.save();
         var user = await User.findById(req.user._id);
         user.credits = user.credits - 1;
         const updatedUser = await user.save();

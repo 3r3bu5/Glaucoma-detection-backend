@@ -4,6 +4,15 @@ const User = require('../model/user.model');
 const Token = require('../model/token.model');
 const { getToken: jwtToken } = require('../utils/jwt.utils');
 const sendVefiyEmail = require('../utils/sendEmail.utils');
+// logging
+const loggerService = require('../services/logger.service');
+var logger = new loggerService('user.controller');
+// error handling
+const APIError = require('../error/api.error')
+const ErrorStatus = require('../error/errorStatusCode')
+const ErrorType = require('../error/errorType')
+
+
 
 exports.register = async (req, res, next) => {
   try {
@@ -18,12 +27,20 @@ exports.register = async (req, res, next) => {
     const savedUser = await user.save();
     var token = new Token({ _userId: savedUser._id, token: uuidv4() });
     await token.save();
-    const msg = sendVefiyEmail(req, user, token.token);
+    sendVefiyEmail(req, user, token.token);
+    logger.info(
+      `REGISTER: registered a new user with email address ${savedUser.email}`
+    );
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json({ success: true, status: 'Registration Successful!' });
+    res.status(200).json({ success: true, msg: 'Registration Successful!' });
   } catch (err) {
+    logger.error(
+      `REGISTER: register error for email ${req.body.email} `,
+      err.message
+    );
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json({ success: false, err });
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(err.httpStatusCode || 500).json({ success: false, err: err.description || err.message });
   }
 };
 
@@ -32,12 +49,10 @@ exports.login = (req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
   try {
     if (req.user.verfied != true) {
-      return res.json({
-        status: false,
-        message: 'Please verfiy your email first!',
-      });
+      throw new APIError(ErrorType.API_ENDPOINT_ERROR, ErrorStatus.UNAUTHORIZED, "Email is not verfied", true)
     }
     const token = jwtToken({ _id: req.user._id });
+    logger.info(`LOGIN: issued a token for email address ${req.user.email}`);
     return res.json({
       status: true,
       message: 'Logged-In Successful!',
@@ -48,18 +63,24 @@ exports.login = (req, res, next) => {
       token,
     });
   } catch (err) {
-    console.log(err);
+    logger.error(
+      `LOGIN: error trying to issue JWT token error for email ${req.user.email} `,
+      err.description || err.message
+    );
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(err.httpStatusCode || 500).json({ success: false, err: err.description || err.message });
   }
 };
 
 exports.verfiy = async (req, res, next) => {
   try {
+    logger.info(
+      `VERFIY: trying to vefiy an email ${req.params.email} with token ${req.params.verfiyToken}`
+    );
+
     var token = await Token.findOne({ token: req.params.verfiyToken });
     if (!token) {
-      return res.status(400).send({
-        msg:
-          'Your verification link may have expired. Please click on resend to verify your Email.',
-      });
+      throw new APIError(ErrorType.API_ENDPOINT_ERROR, ErrorStatus.BAD_REQUEST, "Your verification link may have expired. Please click on resend to verify your Email", true)
     }
     // if token is found then check valid user
     else {
@@ -69,16 +90,11 @@ exports.verfiy = async (req, res, next) => {
       });
       // not valid user
       if (!user) {
-        return res.status(401).send({
-          msg:
-            'We were unable to find a user for this verification. Please SignUp!',
-        });
+        throw new APIError(ErrorType.API_ENDPOINT_ERROR, ErrorStatus.UNAUTHORIZED, "We were unable to find a user for this verification token. Please SignUp!", true)
       }
       // user is already verified
       else if (user.verfied) {
-        return res
-          .status(200)
-          .send({ msg: 'User has been already verified. Please Login' });
+        throw new APIError(ErrorType.API_ENDPOINT_ERROR, ErrorStatus.BAD_REQUEST, "User has been already verified. Please Login!", true)
       }
       // verify user
       else {
@@ -91,41 +107,59 @@ exports.verfiy = async (req, res, next) => {
       }
     }
   } catch (err) {
-    return res.status(500).send({ msg: err.message });
+    logger.error(
+      `VERFIY: error trying to vefiy an email ${req.params.email} with token ${req.params.verfiyToken}`,
+      err.description || err.message
+    );
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(err.httpStatusCode || 500).json({ success: false, err: err.description || err.message });
   }
 };
 
 exports.resendLink = async (req, res, next) => {
-  var user = await User.findOne({ email: req.params.email });
-  // user is not found into database
-  if (!user) {
-    return res.status(400).send({
-      msg:
-        'We were unable to find a user with that email. Make sure your Email is correct!',
-    });
-  }
-  // user has been already verified
-  else if (user.verfied) {
-    return res
-      .status(200)
-      .send({ msg: 'This account has been already verified. Please log in.' });
-  }
-  // send verification link
-  else {
-    // generate token and save
-    var token = new Token({ _userId: user._id, token: uuidv4() });
-    await token.save();
-    const msg = sendVefiyEmail(req, user, token.token);
-    return res.status(200).send({ msg: 'Verfication email has been sent!' });
+  logger.info(
+    `VERFIY: trying to resend a verfication email to  ${req.params.email}`
+  );
+  try {
+    var user = await User.findOne({ email: req.params.email });
+    // user is not found into database
+    if (!user) {
+      throw new APIError(ErrorType.API_ENDPOINT_ERROR, ErrorStatus.BAD_REQUEST, "We were unable to find a user with that email. Make sure your Email is correct!", true)
+    }
+    // user has been already verified
+    else if (user.verfied) {
+      throw new APIError(ErrorType.API_ENDPOINT_ERROR, ErrorStatus.BAD_REQUEST, "This account has been already verified. Please log in!", true)
+    }
+    // send verification link
+    else {
+      // generate token and save
+      var token = new Token({ _userId: user._id, token: uuidv4() });
+      await token.save();
+      sendVefiyEmail(req, user, token.token);
+      return res.status(200).send({ msg: 'Verfication email has been sent!' });
+    }
+  } catch (err) {
+    logger.error(
+      `VERFIY: error trying to resend verfication email ${req.params.email} `,
+      err.description || err.message
+    );
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(err.httpStatusCode || 500).json({ success: false, err: err.description || err.message });
   }
 };
 
 exports.getCredit = async (req, res, next) => {
   try {
     var user = await User.findById(req.user._id);
+    logger.info(`CREDITS: Get credits for user ${req.user.email} `);
     return res.status(200).send({ credits: user.credits });
   } catch (err) {
-    return res.status(500).send({ err: err.message });
+    logger.info(
+      `CREDITS: Error getting credits for user ${req.user.email} `,
+      err.message
+    );
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(err.httpStatusCode || 500).json({ success: false, err: err.description || err.message });
   }
 };
 exports.updateCredit = async (req, res, next) => {
@@ -134,10 +168,16 @@ exports.updateCredit = async (req, res, next) => {
     var credits = parseInt(req.body.credits);
     user.credits = user.credits + credits;
     updatedUser = await user.save();
+    logger.info(`CREDITS: update credits for user ${req.user.email} `);
     return res
       .status(200)
       .send({ success: true, credits: updatedUser.credits });
   } catch (err) {
-    return res.status(500).send({ success: false, err: err.message });
+    logger.info(
+      `CREDITS: Error updating credits for user ${req.user.email} `,
+      err.message
+    );
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(err.httpStatusCode || 500).json({ success: false, err: err.description || err.message });
   }
 };

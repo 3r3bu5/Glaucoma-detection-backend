@@ -1,4 +1,5 @@
 ## To do
+
 #### DB
 
     [x] 1. DB configuration
@@ -6,45 +7,45 @@
     [x] 3. Token Model
     [4] 3. Patient Model
     [5] 3. Image Model
-    
+
 #### Routes
 
-    [x] 1. User  
+    [x] 1. User
     [x] 2. Patient
     [x] 3. Scan
     [x] 3. Checkout
-    
+
 #### Controllers
 
     [x] 1. User
       [x] 1.1 Login
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
       [x] 1.2 Register
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
       [x] 1.3 Verfiy email address
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
       [x] 1.4 Resend verfication email address
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
       [x] 1.5 Get user's credits
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
       [x] 1.6 Update user's credits
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
 
@@ -79,7 +80,7 @@
         - [ ] Error handling
         - [ ] Auditing
         - [ ] Validation
-      
+
     [x] 3. Scan
       [x] 3.1 Create a new scan for an image
         - [ ] Logging
@@ -100,7 +101,6 @@
     [x] 2. JWT stratgey (secure endpoints)
     [x] 3. issue JWT (to access secured endpoints)
 
-
 #### To implement
 
     [ ] 1. rate limit:
@@ -108,5 +108,3 @@
        [ ] - resend verfication email
 
     [ ] 2. Upload images to cloud (maybe AWS)?
-
-

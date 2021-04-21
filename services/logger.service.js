@@ -11,11 +11,10 @@ class loggerService {
     const logger = winston.createLogger({
       level: 'debug',
       format: winston.format.printf((info) => {
-        var message = `${dateFormat()} | ${info.level.toUpperCase()} | ${
-          info.message
-        } | `;
+        var message = `${dateFormat()} | ${info.level.toUpperCase()} | ${info.message
+          } | `;
         message = info.obj
-          ? message + `| data ${JSON.stringify(info.obj)} | `
+          ? message + `data ${JSON.stringify(info.obj)} | `
           : message;
         return message;
       }),

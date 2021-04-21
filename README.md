@@ -5,8 +5,8 @@
     [x] 1. DB configuration
     [x] 2. User Model
     [x] 3. Token Model
-    [4] 3. Patient Model
-    [5] 3. Image Model
+    [x] 4. Patient Model
+    [x] 5. Image Model
 
 #### Routes
 

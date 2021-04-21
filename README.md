@@ -7,6 +7,7 @@
     [x] 3. Token Model
     [x] 4. Patient Model
     [x] 5. Scan Model
+    [x] 6. Audit Model
 
 #### Routes
 
@@ -106,5 +107,4 @@
     [ ] 1. rate limit:
        [ ] - login/signup
        [ ] - resend verfication email
-
     [ ] 2. Upload images to cloud (maybe AWS)?

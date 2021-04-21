@@ -51,33 +51,33 @@
 
     [x] 2. Patient
       [x] 2.1 Get all patients
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
       [x] 2.2 Create new patient record
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
       [x] 2.3 Update patient record
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
       [x] 2.6 Delete patient record
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
       [x] 2.3 Get all patient scan history records
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
       [x] 2.4 Delete all patient scan history records
-        - [ ] Logging
-        - [ ] Error handling
+        - [x] Logging
+        - [x] Error handling
         - [ ] Auditing
         - [ ] Validation
 

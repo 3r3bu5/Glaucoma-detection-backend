@@ -8,11 +8,9 @@ const sendVefiyEmail = require('../utils/sendEmail.utils');
 const loggerService = require('../services/logger.service');
 var logger = new loggerService('user.controller');
 // error handling
-const APIError = require('../error/api.error')
-const ErrorStatus = require('../error/errorStatusCode')
-const ErrorType = require('../error/errorType')
-
-
+const APIError = require('../error/api.error');
+const ErrorStatus = require('../error/errorStatusCode');
+const ErrorType = require('../error/errorType');
 
 exports.register = async (req, res, next) => {
   try {
@@ -39,8 +37,9 @@ exports.register = async (req, res, next) => {
       err.message
     );
     res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Content-Type', 'application/json');
-    return res.status(err.httpStatusCode || 500).json({ success: false, err: err.description || err.message });
+    return res
+      .status(err.httpStatusCode || 500)
+      .json({ success: false, err: err.description || err.message });
   }
 };
 
@@ -49,7 +48,12 @@ exports.login = (req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
   try {
     if (req.user.verfied != true) {
-      throw new APIError(ErrorType.API_ENDPOINT_ERROR, ErrorStatus.UNAUTHORIZED, "Email is not verfied", true)
+      throw new APIError(
+        ErrorType.API_ENDPOINT_ERROR,
+        ErrorStatus.UNAUTHORIZED,
+        'Email is not verfied',
+        true
+      );
     }
     const token = jwtToken({ _id: req.user._id });
     logger.info(`LOGIN: issued a token for email address ${req.user.email}`);
@@ -68,7 +72,9 @@ exports.login = (req, res, next) => {
       err.description || err.message
     );
     res.setHeader('Content-Type', 'application/json');
-    return res.status(err.httpStatusCode || 500).json({ success: false, err: err.description || err.message });
+    return res
+      .status(err.httpStatusCode || 500)
+      .json({ success: false, err: err.description || err.message });
   }
 };
 
@@ -80,7 +86,12 @@ exports.verfiy = async (req, res, next) => {
 
     var token = await Token.findOne({ token: req.params.verfiyToken });
     if (!token) {
-      throw new APIError(ErrorType.API_ENDPOINT_ERROR, ErrorStatus.BAD_REQUEST, "Your verification link may have expired. Please click on resend to verify your Email", true)
+      throw new APIError(
+        ErrorType.API_ENDPOINT_ERROR,
+        ErrorStatus.BAD_REQUEST,
+        'Your verification link may have expired. Please click on resend to verify your Email',
+        true
+      );
     }
     // if token is found then check valid user
     else {
@@ -90,11 +101,21 @@ exports.verfiy = async (req, res, next) => {
       });
       // not valid user
       if (!user) {
-        throw new APIError(ErrorType.API_ENDPOINT_ERROR, ErrorStatus.UNAUTHORIZED, "We were unable to find a user for this verification token. Please SignUp!", true)
+        throw new APIError(
+          ErrorType.API_ENDPOINT_ERROR,
+          ErrorStatus.UNAUTHORIZED,
+          'We were unable to find a user for this verification token. Please SignUp!',
+          true
+        );
       }
       // user is already verified
       else if (user.verfied) {
-        throw new APIError(ErrorType.API_ENDPOINT_ERROR, ErrorStatus.BAD_REQUEST, "User has been already verified. Please Login!", true)
+        throw new APIError(
+          ErrorType.API_ENDPOINT_ERROR,
+          ErrorStatus.BAD_REQUEST,
+          'User has been already verified. Please Login!',
+          true
+        );
       }
       // verify user
       else {
@@ -112,7 +133,9 @@ exports.verfiy = async (req, res, next) => {
       err.description || err.message
     );
     res.setHeader('Content-Type', 'application/json');
-    return res.status(err.httpStatusCode || 500).json({ success: false, err: err.description || err.message });
+    return res
+      .status(err.httpStatusCode || 500)
+      .json({ success: false, err: err.description || err.message });
   }
 };
 
@@ -124,11 +147,21 @@ exports.resendLink = async (req, res, next) => {
     var user = await User.findOne({ email: req.params.email });
     // user is not found into database
     if (!user) {
-      throw new APIError(ErrorType.API_ENDPOINT_ERROR, ErrorStatus.BAD_REQUEST, "We were unable to find a user with that email. Make sure your Email is correct!", true)
+      throw new APIError(
+        ErrorType.API_ENDPOINT_ERROR,
+        ErrorStatus.BAD_REQUEST,
+        'We were unable to find a user with that email. Make sure your Email is correct!',
+        true
+      );
     }
     // user has been already verified
     else if (user.verfied) {
-      throw new APIError(ErrorType.API_ENDPOINT_ERROR, ErrorStatus.BAD_REQUEST, "This account has been already verified. Please log in!", true)
+      throw new APIError(
+        ErrorType.API_ENDPOINT_ERROR,
+        ErrorStatus.BAD_REQUEST,
+        'This account has been already verified. Please log in!',
+        true
+      );
     }
     // send verification link
     else {
@@ -144,7 +177,9 @@ exports.resendLink = async (req, res, next) => {
       err.description || err.message
     );
     res.setHeader('Content-Type', 'application/json');
-    return res.status(err.httpStatusCode || 500).json({ success: false, err: err.description || err.message });
+    return res
+      .status(err.httpStatusCode || 500)
+      .json({ success: false, err: err.description || err.message });
   }
 };
 
@@ -159,7 +194,9 @@ exports.getCredit = async (req, res, next) => {
       err.message
     );
     res.setHeader('Content-Type', 'application/json');
-    return res.status(err.httpStatusCode || 500).json({ success: false, err: err.description || err.message });
+    return res
+      .status(err.httpStatusCode || 500)
+      .json({ success: false, err: err.description || err.message });
   }
 };
 exports.updateCredit = async (req, res, next) => {
@@ -178,6 +215,8 @@ exports.updateCredit = async (req, res, next) => {
       err.message
     );
     res.setHeader('Content-Type', 'application/json');
-    return res.status(err.httpStatusCode || 500).json({ success: false, err: err.description || err.message });
+    return res
+      .status(err.httpStatusCode || 500)
+      .json({ success: false, err: err.description || err.message });
   }
 };

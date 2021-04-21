@@ -23,13 +23,11 @@ exports.uploadCtrl = async (req, res) => {
         var user = await User.findById(req.user._id);
         user.credits = user.credits - 1;
         const updatedUser = await user.save();
-        return res
-          .status(200)
-          .json({
-            filename: req.file.originalname,
-            result: savedImage.result,
-            remCredits: updatedUser.credits,
-          });
+        return res.status(200).json({
+          filename: req.file.originalname,
+          result: savedImage.result,
+          remCredits: updatedUser.credits,
+        });
       } catch (err) {
         console.log(err.message);
         return res.status(500).send({ success: false, err: err.message });

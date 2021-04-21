@@ -1,4 +1,5 @@
 const Patient = require('../model/patient.model');
+const Image = require('../model/image.model');
 
 exports.getAll = async (req, res, next) => {
   try {
@@ -97,5 +98,47 @@ exports.deleteOne = async (req, res, next) => {
   } catch (err) {
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json({ success: false, err });
+  }
+};
+
+exports.getPatientHistory = async (req, res, next) => {
+  try {
+    const history = await Image.find({
+      _patientId: req.params.patientId,
+    }).populate('_patientId');
+    if (!history) {
+      return res.status(404).json({ success: false, msg: 'History Not found' });
+    }
+    if (req.user._id !== history[0]._patientId._doctorId) {
+      return res
+        .status(401)
+        .json({ success: false, msg: 'Unauthorized Access' });
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ success: true, history });
+  } catch (err) {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(500).json({ success: false, err: err.message });
+  }
+};
+exports.deleteAllPatientHistory = async (req, res, next) => {
+  try {
+    const history = await Image.find({
+      _patientId: req.params.patientId,
+    }).populate('_patientId');
+    if (!history) {
+      return res.status(404).json({ success: false, msg: 'History Not found' });
+    }
+    if (req.user._id !== history[0]._patientId._doctorId) {
+      return res
+        .status(401)
+        .json({ success: false, msg: 'Unauthorized Access' });
+    }
+    await history.remove();
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ success: true, msg: 'Delete history successfully' });
+  } catch (err) {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(500).json({ success: false, err: err.message });
   }
 };

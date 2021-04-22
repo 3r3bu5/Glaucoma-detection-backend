@@ -35,8 +35,8 @@ exports.createOne = async (req, res, next) => {
   try {
     let patient = new Patient({
       _doctorId: req.user._id,
-      fname: req.body.firstname,
-      lname: req.body.lastname,
+      fname: req.body.fname,
+      lname: req.body.lname,
       age: req.body.age,
       gender: req.body.gender,
     });
@@ -127,11 +127,11 @@ exports.updateOne = async (req, res, next) => {
       );
     }
 
-    if (req.body.firstname) {
-      patient.fname = req.body.firstname;
+    if (req.body.fname) {
+      patient.fname = req.body.fname;
     }
-    if (req.body.lastname) {
-      patient.lname = req.body.lastname;
+    if (req.body.lname) {
+      patient.lname = req.body.lname;
     }
     if (req.body.age) {
       patient.age = req.body.age;

@@ -23,54 +23,54 @@
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
       [x] 1.2 Register
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
       [x] 1.3 Verfiy email address
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
       [x] 1.4 Resend verfication email address
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
       [x] 1.5 Get user's credits
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
       [x] 1.6 Update user's credits
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
 
     [x] 2. Patient
       [x] 2.1 Get all patients
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
       [x] 2.2 Create new patient record
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
       [x] 2.3 Update patient record
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
       [x] 2.6 Delete patient record
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
       [x] 2.3 Get all patient scan history records
         - [x] Logging
         - [x] Error handling
@@ -80,7 +80,7 @@
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
 
     [x] 3. Scan
       [x] 3.1 Create a new scan for an image

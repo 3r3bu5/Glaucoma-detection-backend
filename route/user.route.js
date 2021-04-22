@@ -12,12 +12,35 @@ const {
   getCredit,
   updateCredit,
 } = require('../controller/userCtrl');
+// validation
+const {
+  validateUserInput,
+} = require('../middleware/validation/validation.midd');
+const validationType = require('../middleware/validation/action');
 
-router.post('/signup', register);
-router.post('/credits', verifyUser, getCredit);
-router.post('/update_credits', verifyUser, updateCredit);
-router.get('/verfiy/:email/:verfiyToken', verfiy);
-router.get('/verfiy/:email/', resendLink);
-router.post('/login', passport.authenticate('local'), login);
+router.post('/signup', validateUserInput(validationType.USER), register);
+router.get('/credits', verifyUser, getCredit);
+router.post(
+  '/update_credits',
+  verifyUser,
+  validateUserInput(validationType.USER),
+  updateCredit
+);
+router.get(
+  '/verfiy/:email/:verfiyToken',
+  validateUserInput(validationType.USER),
+  verfiy
+);
+router.get(
+  '/verfiy/:email/',
+  validateUserInput(validationType.USER),
+  resendLink
+);
+router.post(
+  '/login',
+  validateUserInput(validationType.USER),
+  passport.authenticate('local'),
+  login
+);
 
 module.exports = router;

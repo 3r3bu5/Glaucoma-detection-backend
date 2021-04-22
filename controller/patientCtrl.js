@@ -7,6 +7,9 @@ var logger = new loggerService('patient.controller');
 const APIError = require('../error/api.error');
 const ErrorStatus = require('../error/errorStatusCode');
 const ErrorType = require('../error/errorType');
+// audit
+const { handleAuditing } = require('../audit/audit');
+const actionTypes = require('../audit/actionTypes');
 
 exports.getAll = async (req, res, next) => {
   try {
@@ -15,6 +18,7 @@ exports.getAll = async (req, res, next) => {
       `PATIENT: retreived all patients for user with email address ${req.user.email}`
     );
     res.setHeader('Content-Type', 'application/json');
+    handleAuditing(actionTypes.GET_PATIENTS, patient, 200, null, req.user._id);
     res.status(200).json({ success: true, patient });
   } catch (err) {
     logger.error(
@@ -41,6 +45,13 @@ exports.createOne = async (req, res, next) => {
       `PATIENT: created new patient for user with email address ${req.user.email}`
     );
     res.setHeader('Content-Type', 'application/json');
+    handleAuditing(
+      actionTypes.CREATE_PATIENT,
+      savedPatient,
+      200,
+      null,
+      req.user._id
+    );
     res.status(200).json({ success: true, savedPatient });
   } catch (err) {
     logger.error(
@@ -76,6 +87,13 @@ exports.getOne = async (req, res, next) => {
       `PATIENT: retreived patient with id ${patient._id} for user with email address ${req.user.email}`
     );
     res.setHeader('Content-Type', 'application/json');
+    handleAuditing(
+      actionTypes.GET_ONE_PATIENT,
+      patient,
+      200,
+      null,
+      req.user._id
+    );
     res.status(200).json({ success: true, patient });
   } catch (err) {
     logger.error(
@@ -126,6 +144,13 @@ exports.updateOne = async (req, res, next) => {
     );
     const newPatient = await patient.save();
     res.setHeader('Content-Type', 'application/json');
+    handleAuditing(
+      actionTypes.UPDATE_ONE_PATIENT,
+      newPatient,
+      200,
+      null,
+      req.user._id
+    );
     res.status(200).json({ success: true, newPatient });
   } catch (err) {
     logger.error(
@@ -163,6 +188,13 @@ exports.deleteOne = async (req, res, next) => {
       `PATIENT: deleted patient with id ${patient._id} for user with email address ${req.user.email}`
     );
     res.setHeader('Content-Type', 'application/json');
+    handleAuditing(
+      actionTypes.DELETE_ONE_PATIENT,
+      patient,
+      200,
+      null,
+      req.user._id
+    );
     res.status(200).json({ success: true, msg: 'Deleted successfully' });
   } catch (err) {
     logger.error(
@@ -206,6 +238,13 @@ exports.getPatientHistory = async (req, res, next) => {
       `PATIENT: retrieved patient history with id ${req.params.patientId} for user with email address ${req.user.email}`
     );
     res.setHeader('Content-Type', 'application/json');
+    handleAuditing(
+      actionTypes.GET_ALL_SCAN_HISTORY,
+      history,
+      200,
+      null,
+      req.user._id
+    );
     res.status(200).json({ success: true, history });
   } catch (err) {
     logger.error(
@@ -251,6 +290,13 @@ exports.deletePatientHistory = async (req, res, next) => {
       `PATIENT: removed all patient history with id ${req.params.patientId} for user with email address ${req.user.email}`
     );
     res.setHeader('Content-Type', 'application/json');
+    handleAuditing(
+      actionTypes.DELETE_ONE_SCAN_HISTORY,
+      history,
+      200,
+      null,
+      req.user._id
+    );
     res.status(200).json({ success: true, msg: 'Delete history successfully' });
   } catch (err) {
     logger.error(

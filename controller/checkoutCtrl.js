@@ -6,6 +6,9 @@ var logger = new loggerService('checkout.controller');
 const APIError = require('../error/api.error');
 const ErrorStatus = require('../error/errorStatusCode');
 const ErrorType = require('../error/errorType');
+// audit
+const { handleAuditing } = require('../audit/audit');
+const actionTypes = require('../audit/actionTypes');
 
 exports.createPaymentIntents = async (req, res, next) => {
   try {
@@ -28,6 +31,13 @@ exports.createPaymentIntents = async (req, res, next) => {
       `CHECKOUT: issued a payment intent token for email address ${req.user.email} with ${req.body.NumberOfCredits} credits`
     );
     res.status(200).send({ success: true, data: paymentIntent.client_secret });
+    handleAuditing(
+      actionTypes.CREATE_NEW_PAYMENT_INTENT,
+      paymentIntent,
+      200,
+      null,
+      req.user._id
+    );
   } catch (err) {
     logger.error(
       `CHECKOUT: error issuing a payment intent token for email address ${req.user.email} with ${req.body.NumberOfCredits} credits`,

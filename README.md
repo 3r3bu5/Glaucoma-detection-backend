@@ -54,46 +54,46 @@
       [x] 2.1 Get all patients
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
       [x] 2.2 Create new patient record
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
       [x] 2.3 Update patient record
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
       [x] 2.6 Delete patient record
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
       [x] 2.3 Get all patient scan history records
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
-      [x] 2.4 Delete all patient scan history records
+      [x] 2.4 Delete patient scan history records
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
 
     [x] 3. Scan
       [x] 3.1 Create a new scan for an image
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
 
     [x] 4. Checkout
       [x] 4.1 issue a payment intent secret
         - [x] Logging
         - [x] Error handling
-        - [ ] Auditing
+        - [X] Auditing
         - [ ] Validation
 
 #### Auth

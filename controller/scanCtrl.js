@@ -5,6 +5,9 @@ const Scan = require('../model/scan.model');
 // logging
 const loggerService = require('../services/logger.service');
 var logger = new loggerService('scan.controller');
+// audit
+const { handleAuditing } = require('../audit/audit');
+const actionTypes = require('../audit/actionTypes');
 
 exports.newScan = async (req, res) => {
   uploadSingle(req, res, async function (err) {
@@ -23,7 +26,7 @@ exports.newScan = async (req, res) => {
           Imagelink:
             req.protocol + '://' + process.env.HOSTNAME + '/' + req.file.path,
         });
-        const savedImage = await newScan.save();
+        const savedScan = await newScan.save();
         var user = await User.findById(req.user._id);
         user.credits = user.credits - 1;
         const updatedUser = await user.save();
@@ -31,9 +34,16 @@ exports.newScan = async (req, res) => {
           `SCAN: created a new scan record for patient ${req.body._patientId}`,
           err.message
         );
+        handleAuditing(
+          actionTypes.CREATE_NEW_SCAN,
+          savedScan,
+          200,
+          null,
+          req.user._id
+        );
         return res.status(200).json({
           filename: req.file.originalname,
-          result: savedImage.result,
+          result: savedScan.result,
           remCredits: updatedUser.credits,
         });
       } catch (err) {

@@ -10,11 +10,11 @@ const auditEvent = 'audit';
 emitter.on(auditEvent, async function (auditObj) {
   try {
     const newAudit = await auditObj.save();
-    logger.info(`AUDIT: created new audit record`);
+    logger.info(`AUDIT: created new ${newAudit.actionType} audit record`);
     return;
   } catch (err) {
     return logger.error(
-      `PATIENT: error creating audit record`,
+      `PATIENT: error creating ${auditObj.actionType} audit record`,
       err.description || err.message
     );
   }

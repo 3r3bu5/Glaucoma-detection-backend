@@ -1,6 +1,5 @@
 const Joi = require('joi');
 exports.patientValidationSchema = (req) => {
-  console.log(req.route.path);
   var schema;
   if (req.route.path === '/new') {
     schema = Joi.object({

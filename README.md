@@ -75,7 +75,7 @@
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
       [x] 2.4 Delete patient scan history records
         - [x] Logging
         - [x] Error handling
@@ -87,14 +87,14 @@
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
 
     [x] 4. Checkout
       [x] 4.1 issue a payment intent secret
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
-        - [ ] Validation
+        - [x] Validation
 
 #### Auth
 

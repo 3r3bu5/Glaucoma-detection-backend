@@ -17,8 +17,14 @@ const {
   validateUserInput,
 } = require('../middleware/validation/validation.midd');
 const validationType = require('../middleware/validation/action');
+const { rateLimiter } = require('../middleware/ratelimiter.midd');
 
-router.post('/signup', validateUserInput(validationType.USER), register);
+router.post(
+  '/signup',
+  rateLimiter,
+  validateUserInput(validationType.USER),
+  register
+);
 router.get('/credits', verifyUser, getCredit);
 router.post(
   '/update_credits',
@@ -38,6 +44,7 @@ router.get(
 );
 router.post(
   '/login',
+  rateLimiter,
   validateUserInput(validationType.USER),
   passport.authenticate('local'),
   login

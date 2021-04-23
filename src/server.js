@@ -19,6 +19,7 @@ var connectDB = require('../config/db.config');
 connectDB();
 // passport
 const passport = require('passport');
+const { createLogger } = require('winston');
 
 /*
  * Express middlewares
@@ -56,15 +57,15 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  res.statusCode = error.httpStatusCode ? error.httpStatusCode : 500;
+  logger.error(
+    `API ERROR: ${error.message ? error.message : error.err.message} `
+  );
   res.setHeader('Content-Type', 'application/json');
-  if (process.env.NODE_ENV === 'development') {
-    logger.error(error);
-    res.json(error);
-  } else {
-    logger.error(error);
-    res.json({ message: 'Error' });
-  }
+  res.status(error.httpStatusCode ? error.httpStatusCode : 500);
+  res.json({
+    status: false,
+    err: error.message ? error.message : error.err.message,
+  });
 });
 
 app.listen(process.env.PORT || 3000, (server) => {

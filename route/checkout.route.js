@@ -6,8 +6,10 @@ const {
   validateUserInput,
 } = require('../middleware/validation/validation.midd');
 const validationType = require('../middleware/validation/action');
+const { rateLimiter } = require('../middleware/ratelimiter.midd');
 router.post(
   '/payment_intents',
+  rateLimiter,
   verifyUser,
   validateUserInput(validationType.CHECKOUT),
   createPaymentIntents

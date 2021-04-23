@@ -34,11 +34,13 @@ router.post(
 );
 router.get(
   '/verfiy/:email/:verfiyToken',
+  rateLimiter,
   validateUserInput(validationType.USER),
   verfiy
 );
 router.get(
   '/verfiy/:email/',
+  rateLimiter,
   validateUserInput(validationType.USER),
   resendLink
 );

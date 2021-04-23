@@ -104,7 +104,9 @@
 
 #### To implement
 
-    [ ] 1. rate limit:
-       [ ] - login/signup
-       [ ] - resend verfication email
+    [x] 1. rate limit:
+       [x] - login/signup
+       [x] - verfiy email address
+       [x] - resend verfication email
+       [x] - new image scan
     [ ] 2. Upload images to cloud (maybe AWS)?

@@ -26,19 +26,19 @@ exports.userValidationSchema = (req) => {
       }),
       params: {},
     });
-  } else if (req.route.path === '/verfiy/:email/') {
+  } else if (req.route.path === '/verify/:email/') {
     schema = Joi.object({
       body: {},
       params: Joi.object({
         email: Joi.string().required().email(),
       }),
     });
-  } else if (req.route.path === '/verfiy/:email/:verfiyToken') {
+  } else if (req.route.path === '/verify/:email/:verifyToken') {
     schema = Joi.object({
       body: {},
       params: Joi.object({
         email: Joi.string().required().email(),
-        verfiyToken: Joi.string().required().alphanum(),
+        verifyToken: Joi.string().required(),
       }),
     });
   }

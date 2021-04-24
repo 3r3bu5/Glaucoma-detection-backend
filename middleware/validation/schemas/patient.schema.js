@@ -19,15 +19,15 @@ exports.patientValidationSchema = (req) => {
     schema = Joi.object({
       body: {},
       params: Joi.object({
-        patientId: Joi.string().required().alphanum(),
+        patientId: Joi.string().required(),
       }),
     });
   } else if (req.route.path === '/:patientId/history/:historyId') {
     schema = Joi.object({
       body: {},
       params: Joi.object({
-        patientId: Joi.string().required().alphanum(),
-        historyId: Joi.string().required().alphanum(),
+        patientId: Joi.string().required(),
+        historyId: Joi.string().required(),
       }),
     });
   } else if (req.route.path === '/:patientId/edit') {
@@ -39,7 +39,7 @@ exports.patientValidationSchema = (req) => {
         gender: Joi.string(),
       }),
       params: Joi.object({
-        patientId: Joi.string().required().alphanum(),
+        patientId: Joi.string().required(),
       }),
     });
   }

@@ -31,9 +31,7 @@ exports.newScan = async (req, res) => {
         user.credits = user.credits - 1;
         const updatedUser = await user.save();
         logger.info(
-          `SCAN: created a new scan record for patient ${req.body._patientId}`,
-          err.message
-        );
+          `SCAN: created a new scan record for patient ${req.body._patientId}`);
         handleAuditing(
           actionTypes.CREATE_NEW_SCAN,
           savedScan,
@@ -42,6 +40,7 @@ exports.newScan = async (req, res) => {
           req.user._id
         );
         return res.status(200).json({
+          status: true,
           filename: req.file.originalname,
           result: savedScan.result,
           remCredits: updatedUser.credits,

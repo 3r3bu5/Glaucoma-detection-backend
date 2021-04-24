@@ -52,7 +52,7 @@ exports.createOne = async (req, res, next) => {
       null,
       req.user._id
     );
-    res.status(200).json({ success: true, savedPatient });
+    res.status(200).json({ success: true, patient: savedPatient });
   } catch (err) {
     logger.error(
       `PATIENT: error creating new patient for user with email address ${req.user.email}`,
@@ -78,7 +78,7 @@ exports.getOne = async (req, res, next) => {
     if (patient && req.user._id != patient._doctorId) {
       throw new APIError(
         ErrorType.API_ENDPOINT_ERROR,
-        ErrorStatus.UNAUTHORIZED,
+        ErrorStatus.FORBIDDEN,
         'Unauthorized Access',
         true
       );
@@ -110,6 +110,8 @@ exports.getOne = async (req, res, next) => {
 exports.updateOne = async (req, res, next) => {
   try {
     const patient = await Patient.findOne({ _id: req.params.patientId });
+    console.log(req.body)
+    let { fname, lname, age, gender } = req.body
     if (!patient) {
       throw new APIError(
         ErrorType.API_ENDPOINT_ERROR,
@@ -121,23 +123,31 @@ exports.updateOne = async (req, res, next) => {
     if (req.user._id != patient._doctorId) {
       throw new APIError(
         ErrorType.API_ENDPOINT_ERROR,
-        ErrorStatus.UNAUTHORIZED,
+        ErrorStatus.FORBIDDEN,
         'Unauthorized Access',
         true
       );
     }
+    if (!fname && !lname && !age && !gender) {
+      throw new APIError(
+        ErrorType.API_ENDPOINT_ERROR,
+        ErrorStatus.BAD_REQUEST,
+        'Please choose at least one property to update',
+        true
+      );
+    }
 
-    if (req.body.fname) {
-      patient.fname = req.body.fname;
+    if (fname) {
+      patient.fname = fname;
     }
-    if (req.body.lname) {
-      patient.lname = req.body.lname;
+    if (lname) {
+      patient.lname = lname;
     }
-    if (req.body.age) {
-      patient.age = req.body.age;
+    if (age) {
+      patient.age = age;
     }
-    if (req.body.gender) {
-      patient.gender = req.body.gender;
+    if (gender) {
+      patient.gender = gender;
     }
     logger.info(
       `PATIENT: updated patient with id ${patient._id} for user with email address ${req.user.email}`
@@ -210,10 +220,27 @@ exports.deleteOne = async (req, res, next) => {
 
 exports.getPatientHistory = async (req, res, next) => {
   try {
+    const patient = await Patient.findOne({ _id: req.params.patientId });
+    if (!patient) {
+      throw new APIError(
+        ErrorType.API_ENDPOINT_ERROR,
+        ErrorStatus.NOT_FOUND,
+        'Patient not found',
+        true
+      );
+    }
+    if (req.user._id != patient._doctorId) {
+      throw new APIError(
+        ErrorType.API_ENDPOINT_ERROR,
+        ErrorStatus.UNAUTHORIZED,
+        'Unauthorized Access',
+        true
+      );
+    }
     const history = await Scan.find({
       _patientId: req.params.patientId,
     }).populate('_patientId');
-    if (!history) {
+    if (history === null) {
       throw new APIError(
         ErrorType.API_ENDPOINT_ERROR,
         ErrorStatus.NOT_FOUND,
@@ -259,6 +286,23 @@ exports.getPatientHistory = async (req, res, next) => {
 };
 exports.deletePatientHistory = async (req, res, next) => {
   try {
+    const patient = await Patient.findOne({ _id: req.params.patientId });
+    if (!patient) {
+      throw new APIError(
+        ErrorType.API_ENDPOINT_ERROR,
+        ErrorStatus.NOT_FOUND,
+        'Patient not found',
+        true
+      );
+    }
+    if (req.user._id != patient._doctorId) {
+      throw new APIError(
+        ErrorType.API_ENDPOINT_ERROR,
+        ErrorStatus.UNAUTHORIZED,
+        'Unauthorized Access',
+        true
+      );
+    }
     let history = await Scan.findOne({
       _patientId: req.params.patientId,
       _id: req.params.historyId,
@@ -297,7 +341,7 @@ exports.deletePatientHistory = async (req, res, next) => {
       null,
       req.user._id
     );
-    res.status(200).json({ success: true, msg: 'Delete history successfully' });
+    res.status(200).json({ success: true, msg: 'Deleted history record successfully' });
   } catch (err) {
     logger.error(
       `PATIENT: error trying to remove patient history with id ${req.params.patientId} for user with email address ${req.user.email}`,

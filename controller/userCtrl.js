@@ -53,7 +53,7 @@ exports.login = (req, res, next) => {
     if (req.user.verfied != true) {
       throw new APIError(
         ErrorType.API_ENDPOINT_ERROR,
-        ErrorStatus.UNAUTHORIZED,
+        ErrorStatus.FORBIDDEN,
         'Email is not verfied',
         true
       );
@@ -81,13 +81,13 @@ exports.login = (req, res, next) => {
   }
 };
 
-exports.verfiy = async (req, res, next) => {
+exports.verify = async (req, res, next) => {
   try {
     logger.info(
-      `VERFIY: trying to vefiy an email ${req.params.email} with token ${req.params.verfiyToken}`
+      `verify: trying to vefiy an email ${req.params.email} with token ${req.params.verifyToken}`
     );
 
-    var token = await Token.findOne({ token: req.params.verfiyToken });
+    var token = await Token.findOne({ token: req.params.verifyToken });
     if (!token) {
       throw new APIError(
         ErrorType.API_ENDPOINT_ERROR,
@@ -125,15 +125,15 @@ exports.verfiy = async (req, res, next) => {
         // change verfied to true
         user.verfied = true;
         var user = await user.save();
-        handleAuditing(actionTypes.VERFIY_USER, user, 200, null, user._id);
+        handleAuditing(actionTypes.verify_USER, user, 200, null, user._id);
         return res
           .status(200)
-          .send({ msg: 'Your account has been successfully verified' });
+          .send({ status: true, msg: 'Your account has been successfully verified' });
       }
     }
   } catch (err) {
     logger.error(
-      `VERFIY: error trying to vefiy an email ${req.params.email} with token ${req.params.verfiyToken}`,
+      `verify: error trying to vefiy an email ${req.params.email} with token ${req.params.verifyToken}`,
       err.description || err.message
     );
     res.setHeader('Content-Type', 'application/json');
@@ -145,7 +145,7 @@ exports.verfiy = async (req, res, next) => {
 
 exports.resendLink = async (req, res, next) => {
   logger.info(
-    `VERFIY: trying to resend a verfication email to  ${req.params.email}`
+    `verify: trying to resend a verfication email to  ${req.params.email}`
   );
   try {
     var user = await User.findOne({ email: req.params.email });
@@ -180,11 +180,11 @@ exports.resendLink = async (req, res, next) => {
         null,
         user._id
       );
-      return res.status(200).send({ msg: 'Verfication email has been sent!' });
+      return res.status(200).send({ status: true, msg: 'Verfication email has been sent!' });
     }
   } catch (err) {
     logger.error(
-      `VERFIY: error trying to resend verfication email ${req.params.email} `,
+      `verify: error trying to resend verfication email ${req.params.email} `,
       err.description || err.message
     );
     res.setHeader('Content-Type', 'application/json');

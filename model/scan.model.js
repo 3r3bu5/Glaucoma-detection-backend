@@ -20,7 +20,7 @@ const scanSchema = new mongoose.Schema(
       required: true,
     },
     result: {
-      type: String,
+      type: Number,
       required: true,
     },
     notes: {

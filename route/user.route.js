@@ -7,7 +7,7 @@ const { verifyUser } = require('../services/jwtAuth.service');
 const {
   login,
   register,
-  verfiy,
+  verify,
   resendLink,
   getCredit,
   updateCredit,
@@ -28,18 +28,19 @@ router.post(
 router.get('/credits', verifyUser, getCredit);
 router.post(
   '/update_credits',
+  rateLimiter,
   verifyUser,
   validateUserInput(validationType.USER),
   updateCredit
 );
 router.get(
-  '/verfiy/:email/:verfiyToken',
+  '/verify/:email/:verifyToken',
   rateLimiter,
   validateUserInput(validationType.USER),
-  verfiy
+  verify
 );
 router.get(
-  '/verfiy/:email/',
+  '/verify/:email/',
   rateLimiter,
   validateUserInput(validationType.USER),
   resendLink

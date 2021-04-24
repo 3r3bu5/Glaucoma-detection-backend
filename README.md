@@ -29,7 +29,7 @@
         - [x] Error handling
         - [X] Auditing
         - [x] Validation
-      [x] 1.3 Verfiy email address
+      [x] 1.3 verify email address
         - [x] Logging
         - [x] Error handling
         - [X] Auditing
@@ -106,7 +106,7 @@
 
     [x] 1. rate limit:
        [x] - login/signup
-       [x] - verfiy email address
+       [x] - verify email address
        [x] - resend verfication email
        [x] - new image scan
     [ ] 2. Upload images to cloud (maybe AWS)?

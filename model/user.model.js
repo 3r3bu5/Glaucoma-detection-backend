@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema(
     },
     verfied: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     credits: {
       type: Number,

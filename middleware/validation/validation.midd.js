@@ -26,6 +26,7 @@ exports.validateUserInput = (route) => {
     if (error) {
       err = {
         message: error.details[0].message,
+        httpStatusCode: 400
       };
       return next({ status: false, err });
     } else {

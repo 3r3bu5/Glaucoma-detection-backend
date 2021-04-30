@@ -1,0 +1,4 @@
+4/24/2021, 1:37:40 AM | ERROR | SCAN: Error creating scan record for patient undefined  | data "Cannot read property 'path' of undefined" | 
+4/24/2021, 1:45:12 AM | ERROR | SCAN: Error creating scan record for patient 10d53d58-a993-4284-97e5-302c672bbb7e  | data "Cannot read property 'message' of undefined" | 
+4/24/2021, 1:49:19 AM | INFO | SCAN: created a new scan record for patient 10d53d58-a993-4284-97e5-302c672bbb7e | 
+4/24/2021, 8:54:03 PM | ERROR | SCAN: Error creating scan record for patient undefined  | data "Not enough credits" | 

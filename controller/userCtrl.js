@@ -126,9 +126,10 @@ exports.verify = async (req, res, next) => {
         user.verfied = true;
         var user = await user.save();
         handleAuditing(actionTypes.verify_USER, user, 200, null, user._id);
-        return res
-          .status(200)
-          .send({ status: true, msg: 'Your account has been successfully verified' });
+        return res.status(200).send({
+          status: true,
+          msg: 'Your account has been successfully verified',
+        });
       }
     }
   } catch (err) {
@@ -180,7 +181,9 @@ exports.resendLink = async (req, res, next) => {
         null,
         user._id
       );
-      return res.status(200).send({ status: true, msg: 'Verfication email has been sent!' });
+      return res
+        .status(200)
+        .send({ status: true, msg: 'Verfication email has been sent!' });
     }
   } catch (err) {
     logger.error(

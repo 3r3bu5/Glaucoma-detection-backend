@@ -1,9 +1,13 @@
 ## API Documentation
+
 How to use the API ?
+
 > https://app.swaggerhub.com/apis-docs/3r3bu5/glac-server/1.0
 
 API Server
+
 > https://glac-detect.herokuapp.com
+
 ## To do
 
 #### DB

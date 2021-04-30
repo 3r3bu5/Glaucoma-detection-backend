@@ -110,8 +110,8 @@ exports.getOne = async (req, res, next) => {
 exports.updateOne = async (req, res, next) => {
   try {
     const patient = await Patient.findOne({ _id: req.params.patientId });
-    console.log(req.body)
-    let { fname, lname, age, gender } = req.body
+    console.log(req.body);
+    let { fname, lname, age, gender } = req.body;
     if (!patient) {
       throw new APIError(
         ErrorType.API_ENDPOINT_ERROR,
@@ -341,7 +341,9 @@ exports.deletePatientHistory = async (req, res, next) => {
       null,
       req.user._id
     );
-    res.status(200).json({ success: true, msg: 'Deleted history record successfully' });
+    res
+      .status(200)
+      .json({ success: true, msg: 'Deleted history record successfully' });
   } catch (err) {
     logger.error(
       `PATIENT: error trying to remove patient history with id ${req.params.patientId} for user with email address ${req.user.email}`,

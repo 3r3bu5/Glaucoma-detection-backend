@@ -61,7 +61,11 @@ app.use((error, req, res, next) => {
     `API ERROR: ${error.message ? error.message : error.err.message} `
   );
   res.setHeader('Content-Type', 'application/json');
-  res.status(error.httpStatusCode || error.err.httpStatusCode ? error.httpStatusCode || error.err.httpStatusCode : 500);
+  res.status(
+    error.httpStatusCode || error.err.httpStatusCode
+      ? error.httpStatusCode || error.err.httpStatusCode
+      : 500
+  );
   res.json({
     status: false,
     err: error.message ? error.message : error.err.message,

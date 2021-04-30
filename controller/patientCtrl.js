@@ -272,7 +272,7 @@ exports.getPatientHistory = async (req, res, next) => {
       null,
       req.user._id
     );
-    res.status(200).json({ success: true, history });
+    res.status(200).json({ success: true, history, fname: patient.fname, lname: patient.lname });
   } catch (err) {
     logger.error(
       `PATIENT: error trying get patient history with id ${req.params.patientId} for user with email address ${req.user.email}`,

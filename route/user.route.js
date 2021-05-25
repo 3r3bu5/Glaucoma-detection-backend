@@ -11,6 +11,7 @@ const {
   resendLink,
   getCredit,
   updateCredit,
+  checkLogin,
 } = require('../controller/userCtrl');
 // validation
 const {
@@ -51,6 +52,12 @@ router.post(
   validateUserInput(validationType.USER),
   passport.authenticate('local'),
   login
+);
+router.post(
+  '/check',
+  rateLimiter,
+  validateUserInput(validationType.USER),
+  checkLogin
 );
 
 module.exports = router;

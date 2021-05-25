@@ -3,8 +3,8 @@ const nodemailer = require('nodemailer');
 
 var smtpTransport = nodemailer.createTransport(
   `smtps://${process.env.SMTP_USER}:` +
-  encodeURIComponent(process.env.SMTP_PASS) +
-  `@smtp.gmail.com:465`
+    encodeURIComponent(process.env.SMTP_PASS) +
+    `@smtp.gmail.com:465`
 );
 
 module.exports = async (req, user, token) => {

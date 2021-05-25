@@ -1,9 +1,11 @@
+require('dotenv').config();
 const { v4: uuidv4 } = require('uuid');
 // require models
 const User = require('../model/user.model');
 const Token = require('../model/token.model');
 const { getToken: jwtToken } = require('../utils/jwt.utils');
 const sendVefiyEmail = require('../utils/sendEmail.utils');
+var jwt = require('jsonwebtoken');
 // logging
 const loggerService = require('../services/logger.service');
 var logger = new loggerService('user.controller');
@@ -234,5 +236,19 @@ exports.updateCredit = async (req, res, next) => {
     return res
       .status(err.httpStatusCode || 500)
       .json({ success: false, err: err.description || err.message });
+  }
+};
+exports.checkLogin = async (req, res, next) => {
+  try {
+    var decoded = jwt.verify(req.body.token, process.env.JWT_SECRET);
+    const user = await User.findOne({ _id: decoded._id });
+    if (user) {
+      return res.status(200).send({ success: true });
+    } else {
+      return res.status(200).send({ success: false });
+    }
+  } catch (err) {
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(200).json({ success: false });
   }
 };

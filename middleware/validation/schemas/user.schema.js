@@ -26,6 +26,13 @@ exports.userValidationSchema = (req) => {
       }),
       params: {},
     });
+  } else if (req.route.path === '/check') {
+    schema = Joi.object({
+      body: Joi.object({
+        token: Joi.string().required(),
+      }),
+      params: {},
+    });
   } else if (req.route.path === '/verify/:email/') {
     schema = Joi.object({
       body: {},

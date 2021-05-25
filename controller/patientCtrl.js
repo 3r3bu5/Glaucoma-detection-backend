@@ -110,7 +110,6 @@ exports.getOne = async (req, res, next) => {
 exports.updateOne = async (req, res, next) => {
   try {
     const patient = await Patient.findOne({ _id: req.params.patientId });
-    console.log(req.body);
     let { fname, lname, age, gender } = req.body;
     if (!patient) {
       throw new APIError(
@@ -272,7 +271,14 @@ exports.getPatientHistory = async (req, res, next) => {
       null,
       req.user._id
     );
-    res.status(200).json({ success: true, history, fname: patient.fname, lname: patient.lname });
+    res
+      .status(200)
+      .json({
+        success: true,
+        history,
+        fname: patient.fname,
+        lname: patient.lname,
+      });
   } catch (err) {
     logger.error(
       `PATIENT: error trying get patient history with id ${req.params.patientId} for user with email address ${req.user.email}`,
